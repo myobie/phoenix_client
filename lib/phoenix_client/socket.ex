@@ -57,7 +57,7 @@ defmodule PhoenixClient.Socket do
     reconnect? = Keyword.get(opts, :reconnect?, true)
 
     protocol_vsn = Keyword.get(opts, :vsn, "2.0.0")
-    serializer = Message.serializer(protocol_vsn)
+    serializer = Keyword.get(opts, :serializer, Message.serializer(protocol_vsn))
 
     uri =
       opts

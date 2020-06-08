@@ -23,7 +23,6 @@ defmodule PhoenixClientTest do
 
   @socket_config [
     url: "ws://127.0.0.1:#{@port}/ws/admin/websocket",
-    serializer: Jason,
     reconnect_interval: 10
   ]
 
