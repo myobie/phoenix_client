@@ -31,6 +31,12 @@ defmodule PhoenixClient.MessageTest do
 
       assert to_struct(Message, msg) == v1_msg
     end
+
+    test "does not support binary frames" do
+      assert_raise Message.Serializer.Error, fn ->
+        Message.V1.decode!({:binary, <<42>>}, Jason)
+      end
+    end
   end
 
   describe "v2 serializer" do
@@ -62,6 +68,12 @@ defmodule PhoenixClient.MessageTest do
       v2_msg = Message.V2.decode!(frame, Jason)
 
       assert struct(Message, msg) == v2_msg
+    end
+
+    test "does not support binary frames" do
+      assert_raise Message.Serializer.Error, fn ->
+        Message.V2.decode!({:binary, <<42>>}, Jason)
+      end
     end
   end
 

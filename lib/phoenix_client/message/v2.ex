@@ -14,6 +14,10 @@ defmodule PhoenixClient.Message.V2 do
     }
   end
 
+  def decode!(msg, _) do
+    raise Message.Serializer.Error, message: "Unsupported message: #{inspect(msg)}"
+  end
+
   def encode!(%Message{} = msg, json_library) do
     {:text,
      [msg.join_ref, msg.ref, msg.topic, msg.event, msg.payload]
