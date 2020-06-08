@@ -34,23 +34,18 @@ defmodule PhoenixClient.Transports.Websocket do
     {:close, :normal, state}
   end
 
-  @doc """
-  Receives JSON encoded Socket.Message from remote WS endpoint and
-  forwards message to client sender process
-  """
-  def websocket_handle({:text, msg}, _conn_state, state) do
-    send(state.sender, {:receive, msg})
-    {:ok, state}
-  end
-
   def websocket_handle({:pong, _msg}, _conn_state, state) do
     # Ignore pong responses when :websocket_client is configured to send
     # keepalive messages.
     {:ok, state}
   end
 
-  def websocket_handle(other_msg, _req, state) do
-    Logger.warn(fn -> "Unknown message #{inspect(other_msg)}" end)
+  @doc """
+  Receives JSON encoded Socket.Message from remote WS endpoint and
+  forwards message to client sender process
+  """
+  def websocket_handle(msg, _conn_state, state) do
+    send(state.sender, {:receive, msg})
     {:ok, state}
   end
 
@@ -58,7 +53,7 @@ defmodule PhoenixClient.Transports.Websocket do
   Sends JSON encoded Socket.Message to remote WS endpoint
   """
   def websocket_info({:send, msg}, _conn_state, state) do
-    {:reply, {:text, msg}, state}
+    {:reply, msg, state}
   end
 
   def websocket_info(:close, _conn_state, state) do

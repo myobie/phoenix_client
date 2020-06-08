@@ -12,8 +12,8 @@ defmodule PhoenixClient.MessageTest do
         payload: %{"a" => "b"}
       }
 
+      frame = {:text, Jason.encode!(msg)}
       v1_msg = Message.V1.encode!(struct(Message, msg), Jason)
-      frame = Jason.encode!(msg)
 
       assert frame == v1_msg
     end
@@ -26,8 +26,8 @@ defmodule PhoenixClient.MessageTest do
         "payload" => %{"a" => "b"}
       }
 
+      frame = {:text, Jason.encode!(msg)}
       v1_msg = Message.V1.decode!(frame, Jason)
-      frame = Jason.encode!(msg)
 
       assert to_struct(Message, msg) == v1_msg
     end
@@ -43,8 +43,8 @@ defmodule PhoenixClient.MessageTest do
         payload: %{"a" => "b"}
       }
 
+      frame = {:text, Jason.encode!(["1", "1", "1234", "new:thing", %{"a" => "b"}])}
       v2_msg = Message.V2.encode!(struct(Message, msg), Jason)
-      frame = Jason.encode!(["1", "1", "1234", "new:thing", %{"a" => "b"}])
 
       assert frame == v2_msg
     end
@@ -58,8 +58,8 @@ defmodule PhoenixClient.MessageTest do
         payload: %{"a" => "b"}
       }
 
+      frame = {:text, Jason.encode!(["1", "1", "1234", "new:thing", %{"a" => "b"}])}
       v2_msg = Message.V2.decode!(frame, Jason)
-      frame = Jason.encode!(["1", "1", "1234", "new:thing", %{"a" => "b"}])
 
       assert struct(Message, msg) == v2_msg
     end

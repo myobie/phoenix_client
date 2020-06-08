@@ -1,4 +1,4 @@
 defmodule PhoenixClient.Message.Serializer do
-  @callback decode!(binary, module) :: PhoenixClient.Message.t()
-  @callback encode!(PhoenixClient.Message.t(), module) :: binary
+  @callback decode!({:text | :binary, binary}, module) :: PhoenixClient.Message.t()
+  @callback encode!(PhoenixClient.Message.t(), module) :: {:text | :binary, binary}
 end
